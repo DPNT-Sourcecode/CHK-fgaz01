@@ -58,11 +58,15 @@ class CheckoutSolution:
                 # print("here")
                 qty = itemsOrdered[freebies[0]] # check how many in basket already
                 val = self.prices[freebies[0]] # get value of the freebie
-                if qty >= freebiesToClaim:
-                    # print(f"deducting {val}")
-                    totalPrice -= val*freebiesToClaim
-                else:
-                    totalPrice -= val*qty
+                spent = self.priceCalculator(freebies[0],qty,itemsOrdered) # incase already claimed a deal
+                maxClaim = val*freebiesToClaim
+
+                totalPrice -= min(spent, maxClaim)
+                # if qty >= freebiesToClaim:
+                #     # print(f"deducting {val}")
+                #     totalPrice -= val*freebiesToClaim
+                # else:
+                #     totalPrice -= val*qty
         # print(f"Total for {item} = {totalPrice}\n")
         return totalPrice
 
@@ -102,5 +106,5 @@ class CheckoutSolution:
 
         return int(totalCheckoutVal)
 
-supermarket = CheckoutSolution()
-print(supermarket.checkout("BBEEEE"))
+# supermarket = CheckoutSolution()
+# print(supermarket.checkout("AAAEED"))
