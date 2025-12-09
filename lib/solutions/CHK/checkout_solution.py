@@ -4,12 +4,13 @@ class CheckoutSolution:
         "A" : 50,
         "B" : 30,
         "C" : 20,
-        "D" : 15
+        "D" : 15,
+        "E" : 40
     }
 
-    specialOffers = {
-        "A": (3,130), # (qty,price)
-        "B" : (2,45)
+    specialOffers = {# (qty,price)
+        "A": [(3,130), (5, 200)],
+        "B" : [(2,45)]
     }
 
     def offerCalculator(self, item, qty):
@@ -63,6 +64,7 @@ class CheckoutSolution:
 
 supermarket = CheckoutSolution()
 print(supermarket.checkout(""))
+
 
 
 
