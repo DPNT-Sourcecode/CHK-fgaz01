@@ -27,7 +27,7 @@ class CheckoutSolution:
             return price
 
     def priceCalculator(self, item, qty):
-        if (item not in self.prices) or (qty < 1): # illegal input
+        if (qty < 1): # illegal input
             return -1
 
         if item not in self.specialOffers: # no special offers, sell at regular price 
@@ -37,10 +37,15 @@ class CheckoutSolution:
     
     def checkout(self, skus): # skus = unicode string
         if skus == "": # illegal input
-            return -1
-        items = skus.split()  # parse input to get items and quantities
+            return 0
+        
+        allItems = self.prices.keys()
+        items = list(skus)  # parse input to get items and quantities
         itemsOrdered = {}
+        
         for item in items:
+            if item not in allItems:
+                return -1
             if item in itemsOrdered:
                 itemsOrdered[item] += 1
             else:
@@ -55,6 +60,7 @@ class CheckoutSolution:
                 return -1
 
         return int(totalCheckoutVal)
+
 
 
 
