@@ -106,5 +106,6 @@ class CheckoutSolution:
 
         return int(totalCheckoutVal)
 
-# supermarket = CheckoutSolution()
-# print(supermarket.checkout("AAAEED"))
+supermarket = CheckoutSolution()
+print(supermarket.checkout("ABCDEABCDE")) # expected 280
+# print(supermarket.checkout("CCADDEEBBA")) # expected 280
