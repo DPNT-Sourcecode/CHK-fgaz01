@@ -51,14 +51,29 @@ class CheckoutSolution:
         if qtyRemaining > 0: # include any remaining items
             totalPrice += (qtyRemaining * regularPrice)
         # print(f"total before freebies = {totalPrice}")
-        freebie = None
-        if offer[2] != ():
-            freebie = offer[2][0]
+        # freebie = None
+        # if offer[2] != ():
+        #     freebie = offer[2][0]
 
-        if freebie:
-            qtyFree = itemsOrdered.get(freebie,0)
-            numFree = min(qtyFree, freebiesToClaim)
-            totalPrice -= numFree * self.prices[freebie]
+        # if freebie:
+        #     qtyFree = itemsOrdered.get(freebie,0)
+        #     numFree = min(qtyFree, freebiesToClaim)
+        #     totalPrice -= numFree * self.prices[freebie]
+
+        if offer[2] != ():
+            freebieItem, freeQtyPerOffer = offer[2]
+            totalFreebies = freebiesToClaim
+
+            if freebieItem in itemsOrdered:
+                qtyInBasket = itemsOrdered[freebieItem]
+                originalCost = self.priceCalculator(freebieItem, qtyInBasket, itemsOrdered)
+                regularCost = qtyInBasket * self.prices[freebieItem]
+                freebiesClaimed = min(qtyInBasket, totalFreebies)
+
+                totalPrice -= originalCost
+                totalPrice += regularCost
+                totalPrice -= freebiesClaimed * self.prices[freebieItem]
+        
         # freebies = offer[2]
         # if freebies != (): # some freebies
         #     # print("claiming freebie!")
@@ -121,7 +136,7 @@ class CheckoutSolution:
         return int(totalCheckoutVal)
 
 supermarket = CheckoutSolution()
-print(supermarket.checkout("ABCDEABCDE")) # expected 280
+# print(supermarket.checkout("ABCDEABCDE")) # expected 280
 # print(supermarket.checkout("CCADDEEBBA")) # expected 280
 # print(supermarket.checkout("AAAAAEEBAAABB")) # expected 455
-# print(supermarket.checkout("ABCDECBAABCABBAAAEEAA")) # expected = 665
+print(supermarket.checkout("ABCDECBAABCABBAAAEEAA")) # expected = 665
