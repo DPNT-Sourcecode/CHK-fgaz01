@@ -18,7 +18,7 @@ class CheckoutSolution:
 
         if qty == offer[0]: # quantity matches offer perfectly
             return offer[1]
-        elif qty < offer: # not enough bought to claim the offer
+        elif qty < offer[0]: # not enough bought to claim the offer
             return regularPrice * qty
         else: # can claim at least one offer
             numOffer = qty // offer[0]
@@ -36,6 +36,8 @@ class CheckoutSolution:
         return self.offerCalculator(item, qty)
     
     def checkout(self, skus): # skus = unicode string
+        if skus == "": # illegal input
+            return -1
         items = skus.split()  # parse input to get items and quantities
         itemsOrdered = {}
         for item in items:
@@ -53,5 +55,6 @@ class CheckoutSolution:
                 return -1
 
         return int(totalCheckoutVal)
+
 
 
