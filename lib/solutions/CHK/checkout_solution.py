@@ -35,13 +35,16 @@ class CheckoutSolution:
     
         return self.offerCalculator(item, qty)
     
-    def checkout(self, skus):# skus = unicode string
-        totalCheckoutVal = 0
-        itemsOrdered = []
-        # parse input to get items and quantities
-        # store in a list (or map)
+    def checkout(self, skus): # skus = unicode string
+        items = skus.split()  # parse input to get items and quantities
+        itemsOrdered = {}
+        for item in items:
+            if item in itemsOrdered:
+                itemsOrdered[item] += 1
+            else:
+                itemsOrdered[item] = 1    
 
-        
+        totalCheckoutVal = 0
         for item, qty in itemsOrdered:
             val = self.priceCalculator(item,qty)
             if val != -1:
@@ -49,5 +52,5 @@ class CheckoutSolution:
             else:
                 return -1
 
+        return int(totalCheckoutVal)
 
-        return totalCheckoutVal
