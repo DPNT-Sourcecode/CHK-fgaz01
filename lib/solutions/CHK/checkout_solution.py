@@ -24,8 +24,10 @@ class CheckoutSolution:
         qtyRemaining = qty # claim offers greedily
         freebiesToClaim = 0
         for offer in offers:
+            print("HERE")
             if qty < offer[0]: # not enough bought to claim the offer
                 totalPrice += (regularPrice * qty)
+                print(f"here. {regularPrice} and {qty}. {totalPrice}")
                 break
             elif qty == offer[0]: # quantity matches offer perfectly
                 totalPrice += offer[1]
@@ -38,7 +40,7 @@ class CheckoutSolution:
                     totalPrice += (offer[1] * numOffer)
                     if offer[2] != ():
                         freebiesToClaim += (numOffer*offer[2][1]) # make proportional to  offers claimed
-
+        print(f"total = {totalPrice}")
         if qtyRemaining > 0: # include any remaining items
             totalPrice += (qtyRemaining * regularPrice)
 
@@ -51,7 +53,7 @@ class CheckoutSolution:
                     totalPrice -= val*freebiesToClaim
                 else:
                     totalPrice -= val*qty
-
+        print(f"total = {totalPrice}")
         return totalPrice
 
     def priceCalculator(self, item, qty,itemsOrdered):
@@ -90,5 +92,5 @@ class CheckoutSolution:
         return int(totalCheckoutVal)
 
 supermarket = CheckoutSolution()
-print(supermarket.checkout("AAAAAAAA"))
+print(supermarket.checkout("B"))
 
