@@ -25,24 +25,27 @@ class CheckoutSolution:
         freebiesToClaim = 0
         for offer in offers:
             # print("HERE")
+            numOffer = 0
             if qty < offer[0]: # not enough bought to claim the offer
                 totalPrice += (regularPrice * qty)
                 # print(f"here. {regularPrice} and {qty}. {totalPrice}")
                 qtyRemaining -= qty
-                break
+                # break
             elif qty == offer[0]: # quantity matches offer perfectly
-                ""
+                numOffer = 1
                 totalPrice += offer[1] 
                 qtyRemaining -= qty
-                break   
+                # break   
             else: 
                 if qtyRemaining > 0: # can claim at least one offer
                     numOffer = qtyRemaining // offer[0]
                     qtyRemaining -= (numOffer*offer[0]) 
                     # price = (offer[1] * numOffer) + (remaining * regularPrice)
                     totalPrice += (offer[1] * numOffer)
-                    if offer[2] != ():
-                        freebiesToClaim += (numOffer*offer[2][1]) # make proportional to  offers claimed
+            print(f"Potential freebies = {offer[2]}")
+            if offer[2] != ():
+                print("Adding val for freebie")
+                freebiesToClaim += (numOffer*offer[2][1]) # make proportional to  offers claimed
         
         if qtyRemaining > 0: # include any remaining items
             totalPrice += (qtyRemaining * regularPrice)
@@ -55,6 +58,7 @@ class CheckoutSolution:
                 qty = itemsOrdered[freebies[0]] # check how many in basket already
                 val = self.prices[freebies[0]] # get value of the freebie
                 if qty >= freebiesToClaim:
+                    print(f"deducting {val}")
                     totalPrice -= val*freebiesToClaim
                 else:
                     totalPrice -= val*qty
