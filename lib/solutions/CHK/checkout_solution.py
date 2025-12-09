@@ -27,10 +27,11 @@ class CheckoutSolution:
             # print("HERE")
             numOffer = 0
             if qty < offer[0]: # not enough bought to claim the offer
-                totalPrice += (regularPrice * qty)
-                # print(f"here. {regularPrice} and {qty}. {totalPrice}")
-                qtyRemaining -= qty
+                # totalPrice += (regularPrice * qty)
+                # # print(f"here. {regularPrice} and {qty}. {totalPrice}")
+                # qtyRemaining -= qty
                 # break
+                continue
             elif qty == offer[0]: # quantity matches offer perfectly
                 numOffer = 1
                 totalPrice += offer[1] 
@@ -42,27 +43,27 @@ class CheckoutSolution:
                     qtyRemaining -= (numOffer*offer[0]) 
                     # price = (offer[1] * numOffer) + (remaining * regularPrice)
                     totalPrice += (offer[1] * numOffer)
-            print(f"Potential freebies = {offer[2]}")
+            # print(f"Potential freebies = {offer[2]}")
             if offer[2] != ():
-                print("Adding val for freebie")
+                # print("Adding val for freebie")
                 freebiesToClaim += (numOffer*offer[2][1]) # make proportional to  offers claimed
         
         if qtyRemaining > 0: # include any remaining items
             totalPrice += (qtyRemaining * regularPrice)
-        print(f"total before freebies = {totalPrice}")
+        # print(f"total before freebies = {totalPrice}")
         freebies = offer[2]
         if freebies != (): # some freebies
-            print("claiming freebie!")
+            # print("claiming freebie!")
             if freebies[0] in itemsOrdered.keys(): 
-                print("here")
+                # print("here")
                 qty = itemsOrdered[freebies[0]] # check how many in basket already
                 val = self.prices[freebies[0]] # get value of the freebie
                 if qty >= freebiesToClaim:
-                    print(f"deducting {val}")
+                    # print(f"deducting {val}")
                     totalPrice -= val*freebiesToClaim
                 else:
                     totalPrice -= val*qty
-        print(f"Total for {item} = {totalPrice}\n")
+        # print(f"Total for {item} = {totalPrice}\n")
         return totalPrice
 
     def priceCalculator(self, item, qty,itemsOrdered):
@@ -70,7 +71,7 @@ class CheckoutSolution:
             return -1
 
         if item not in self.specialOffers: # no special offers, sell at regular price 
-            print(f"Total for {item} = {self.prices[item] * qty}\n")
+            # print(f"Total for {item} = {self.prices[item] * qty}\n")
             return self.prices[item] * qty
     
         return self.offerCalculator(item, qty, itemsOrdered)
@@ -102,4 +103,4 @@ class CheckoutSolution:
         return int(totalCheckoutVal)
 
 supermarket = CheckoutSolution()
-print(supermarket.checkout("BEE"))
+print(supermarket.checkout("AAAAAA"))
