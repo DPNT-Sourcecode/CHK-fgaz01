@@ -62,8 +62,11 @@ class CheckoutSolution:
                 maxClaim = val*freebiesToClaim
 
                 totalPrice -= spent # recalculate price for the freebie item (remove potential deals)
-                totalPrice += self.prices[item] * qty
-                totalPrice -= min(spent, maxClaim)
+               
+                spendWithoutDeals = val * qty
+
+                totalPrice += spendWithoutDeals
+                totalPrice -= min(spendWithoutDeals, maxClaim)
                 # if qty >= freebiesToClaim:
                 #     # print(f"deducting {val}")
                 #     totalPrice -= val*freebiesToClaim
@@ -108,7 +111,7 @@ class CheckoutSolution:
 
         return int(totalCheckoutVal)
 
-supermarket = CheckoutSolution()
-print(supermarket.checkout("ABCDEABCDE")) # expected 280
+# supermarket = CheckoutSolution()
+# print(supermarket.checkout("ABCDEABCDE")) # expected 280
 # print(supermarket.checkout("CCADDEEBBA")) # expected 280
 
