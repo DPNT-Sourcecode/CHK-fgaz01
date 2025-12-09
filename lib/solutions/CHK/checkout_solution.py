@@ -22,6 +22,7 @@ class CheckoutSolution:
         # 2) deduct the price of any freebies (if in the basket)
         totalPrice = 0
         qtyRemaining = qty # claim offers greedily
+        freebiesToClaim = 0
         for offer in offers:
             if qty < offer[0]: # not enough bought to claim the offer
                 totalPrice += (regularPrice * qty)
@@ -35,14 +36,23 @@ class CheckoutSolution:
                     qtyRemaining -= (numOffer*offer[0]) 
                     # price = (offer[1] * numOffer) + (remaining * regularPrice)
                     totalPrice += (offer[1] * numOffer)
+                    if offer[2] != ():
+                        freebiesToClaim += (numOffer*offer[2][1]) # make proportional to  offers claimed
 
         if qtyRemaining > 0: # include any remaining items
             totalPrice += (qtyRemaining * regularPrice)
 
         freebies = offer[2]
         if freebies != (): # some freebies
-            if freebies[0] in itemsOrdered.keys():
+            if freebies[0] in itemsOrdered.keys(): 
+                qty = itemsOrdered[freebies[0]] # check how many in basket already
+                val = self.prices[freebies[0]] # get value of the freebie
+                if qty >= freebiesToClaim:
+                    totalPrice -= val*freebiesToClaim
+                else:
+                    totalPrice -= val*qty
 
+        return totalPrice
 
     def priceCalculator(self, item, qty,itemsOrdered):
         if (qty < 1): # illegal input
@@ -80,5 +90,5 @@ class CheckoutSolution:
         return int(totalCheckoutVal)
 
 supermarket = CheckoutSolution()
-print(supermarket.checkout(""))
+print(supermarket.checkout("AAAAAAAA"))
 
