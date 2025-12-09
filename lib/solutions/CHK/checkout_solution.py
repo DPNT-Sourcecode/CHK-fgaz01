@@ -117,7 +117,7 @@ class CheckoutSolution:
         return int(totalCheckoutVal - freeVal)
 
 supermarket = CheckoutSolution()
-print(supermarket.checkout("ABCDEABCDE")) # expected 280
+# print(supermarket.checkout("ABCDEABCDE")) # expected 280
 # print(supermarket.checkout("CCADDEEBBA")) # expected 280
 # print(supermarket.checkout("AAAAAEEBAAABB")) # expected 455
 # print(supermarket.checkout("ABCDECBAABCABBAAAEEAA")) # expected = 665
