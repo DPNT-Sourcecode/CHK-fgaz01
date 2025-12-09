@@ -1,4 +1,4 @@
-from catalogue import SupermarketCatalogue
+from solutions.CHK.catalogue import SupermarketCatalogue
 
 class CheckoutSolution: 
     catalogue = SupermarketCatalogue()
@@ -114,3 +114,4 @@ supermarket = CheckoutSolution()
 # print(supermarket.checkout("ABCDECBAABCABBAAAEEAA")) # expected = 665
 # print(supermarket.checkout("FFFFFF"))
 # print (supermarket.checkout("FFABCDECBAABCABBAAAEEAAFF")) # expected = 695
+
