@@ -103,4 +103,4 @@ class CheckoutSolution:
         return int(totalCheckoutVal)
 
 supermarket = CheckoutSolution()
-print(supermarket.checkout("AAAAAA"))
+print(supermarket.checkout("BBEEEE"))
