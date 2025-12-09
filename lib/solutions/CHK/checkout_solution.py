@@ -42,7 +42,7 @@ class CheckoutSolution:
         allItems = self.prices.keys()
         items = list(skus)  # parse input to get items and quantities
         itemsOrdered = {}
-        
+
         for item in items:
             if item not in allItems:
                 return -1
@@ -60,6 +60,9 @@ class CheckoutSolution:
                 return -1
 
         return int(totalCheckoutVal)
+
+supermarket = CheckoutSolution()
+print(supermarket.checkout(""))
 
 
 
