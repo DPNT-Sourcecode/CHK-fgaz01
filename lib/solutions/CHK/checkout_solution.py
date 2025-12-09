@@ -5,13 +5,15 @@ class CheckoutSolution:
         "B" : 30,
         "C" : 20,
         "D" : 15,
-        "E" : 40
+        "E" : 40,
+        "F" : 10
     }
 
     specialOffers = { # (qty,price,freebies)
         "A": [(5, 200, ()), (3,130, ())], # store offers in reverse i.e best value -> least value
         "B" : [(2,45, ())],
-        "E" : [(2,80, ("B",1))]
+        "E" : [(2,80, ("B",1))],
+        "F" : [(3,20, ())] # 'buy 2 get 1 free'
     }
 
     def offerCalculator(self, item, qty, itemsOrdered):
@@ -121,3 +123,4 @@ supermarket = CheckoutSolution()
 # print(supermarket.checkout("CCADDEEBBA")) # expected 280
 # print(supermarket.checkout("AAAAAEEBAAABB")) # expected 455
 # print(supermarket.checkout("ABCDECBAABCABBAAAEEAA")) # expected = 665
+print(supermarket.checkout("FF"))
