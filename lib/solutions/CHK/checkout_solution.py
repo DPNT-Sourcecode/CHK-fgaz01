@@ -11,7 +11,7 @@ class CheckoutSolution:
     specialOffers = { # (qty,price,freebies)
         "A": [(5, 200, ()), (3,130, ())], # store offers in reverse i.e best value -> least value
         "B" : [(2,45, ())],
-        "E" : [(2,40, ("B",1))]
+        "E" : [(2,80, ("B",1))]
     }
 
     def offerCalculator(self, item, qty, itemsOrdered):
@@ -31,7 +31,8 @@ class CheckoutSolution:
                 qtyRemaining -= qty
                 break
             elif qty == offer[0]: # quantity matches offer perfectly
-                totalPrice += offer[1]
+                ""
+                totalPrice += offer[1] 
                 qtyRemaining -= qty
                 break   
             else: 
@@ -42,21 +43,22 @@ class CheckoutSolution:
                     totalPrice += (offer[1] * numOffer)
                     if offer[2] != ():
                         freebiesToClaim += (numOffer*offer[2][1]) # make proportional to  offers claimed
-        # print(f"total = {totalPrice}")
+        
         if qtyRemaining > 0: # include any remaining items
             totalPrice += (qtyRemaining * regularPrice)
-
+        print(f"total before freebies = {totalPrice}")
         freebies = offer[2]
         if freebies != (): # some freebies
-            # print("here")
+            print("claiming freebie!")
             if freebies[0] in itemsOrdered.keys(): 
+                print("here")
                 qty = itemsOrdered[freebies[0]] # check how many in basket already
                 val = self.prices[freebies[0]] # get value of the freebie
                 if qty >= freebiesToClaim:
                     totalPrice -= val*freebiesToClaim
                 else:
                     totalPrice -= val*qty
-        print(f"Total for {item} = {totalPrice}")
+        print(f"Total for {item} = {totalPrice}\n")
         return totalPrice
 
     def priceCalculator(self, item, qty,itemsOrdered):
@@ -64,7 +66,7 @@ class CheckoutSolution:
             return -1
 
         if item not in self.specialOffers: # no special offers, sell at regular price 
-            print(f"Total for {item} = {self.prices[item] * qty}")
+            print(f"Total for {item} = {self.prices[item] * qty}\n")
             return self.prices[item] * qty
     
         return self.offerCalculator(item, qty, itemsOrdered)
@@ -97,4 +99,3 @@ class CheckoutSolution:
 
 supermarket = CheckoutSolution()
 print(supermarket.checkout("BEE"))
-
