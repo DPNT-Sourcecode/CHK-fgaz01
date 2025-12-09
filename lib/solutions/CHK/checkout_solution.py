@@ -1,12 +1,15 @@
 
 class CheckoutSolution: 
     prices = {
-        "A" : 50,
-        "B" : 30,
-        "C" : 20,
+        "A" : 50, "B" : 30, "C" : 20,
         "D" : 15,
         "E" : 40,
-        "F" : 10
+        "F" : 10,
+        "G" : 20,
+        "H" : 10,
+        "I" : 35,
+        "J" : 60,
+        "K" : 80
     }
 
     specialOffers = { # (qty,price,freebies)
@@ -123,4 +126,4 @@ supermarket = CheckoutSolution()
 # print(supermarket.checkout("CCADDEEBBA")) # expected 280
 # print(supermarket.checkout("AAAAAEEBAAABB")) # expected 455
 # print(supermarket.checkout("ABCDECBAABCABBAAAEEAA")) # expected = 665
-print(supermarket.checkout("FFFFFF"))
+# print(supermarket.checkout("FFFFFF"))
