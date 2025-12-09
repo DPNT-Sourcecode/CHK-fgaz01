@@ -8,32 +8,42 @@ class CheckoutSolution:
     }
 
     specialOffers = {
-        "A": (3,130),
+        "A": (3,130), # (qty,price)
         "B" : (2,45)
     }
 
     def offerCalculator(self, item, qty):
-        continue
+        regularPrice = self.prices[item]
+        offer = self.specialOffers[item]
 
+        if qty == offer[0]: # quantity matches offer perfectly
+            return offer[1]
+        elif qty < offer: # not enough bought to claim the offer
+            return regularPrice * qty
+        else: # can claim at least one offer
+            numOffer = qty // offer[0]
+            remaining = qty - (numOffer*offer[0])
+            price = (offer[1] * numOffer) + (remaining * regularPrice)
+            return price
 
     def priceCalculator(self, item, qty):
-        if item not in prices: # illegal input
+        if item not in self.prices: # illegal input
             return -1
 
-        if item not in specialOffers: # no special offers, regular price calculation
-            return prices[item] * qty
+        if item not in self.specialOffers: # no special offers, sell at regular price 
+            return self.prices[item] * qty
     
-        return offerCalculator(item, qty)
+        return self.offerCalculator(item, qty)
     
     def checkout(self, skus):# skus = unicode string
         totalCheckoutVal = 0
-
+        itemsOrdered = []
         # parse input to get items and quantities
         # store in a list (or map)
 
-        items = []
-        for item, qty in items:
-            val = priceCalculator(item,qty)
+        
+        for item, qty in itemsOrdered:
+            val = self.priceCalculator(item,qty)
             if val != -1:
                 totalCheckoutVal += val 
             else:
@@ -41,4 +51,3 @@ class CheckoutSolution:
 
 
         return totalCheckoutVal
-
