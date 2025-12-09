@@ -1,23 +1,9 @@
+from catalogue import SupermarketCatalogue
 
 class CheckoutSolution: 
-    # prices = {
-    #     "A" : 50, "B" : 30, "C" : 20,
-    #     "D" : 15,
-    #     "E" : 40,
-    #     "F" : 10,
-    #     "G" : 20,
-    #     "H" : 10,
-    #     "I" : 35,
-    #     "J" : 60,
-    #     "K" : 80
-    # }
-
-    # specialOffers = { # (qty,price,freebies)
-    #     "A": [(5, 200, ()), (3,130, ())], # store offers in reverse i.e best value -> least value
-    #     "B" : [(2,45, ())],
-    #     "E" : [(2,80, ("B",1))],
-    #     "F" : [(3,20, ())] # 'buy 2 get 1 free'
-    # }
+    catalogue = SupermarketCatalogue()
+    prices = catalogue.getPrices()
+    specialOffers = catalogue.getSpecialOffers()
 
     def offerCalculator(self, item, qty, itemsOrdered):
         regularPrice = self.prices[item]
