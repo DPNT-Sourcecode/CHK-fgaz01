@@ -63,15 +63,16 @@ class CheckoutSolution:
     def freebieCalculator(self, itemsOrdered):
         freebieValue = 0 # value to deduct from the total price!
 
-    def priceCalculator(self, item, qty,itemsOrdered):
+    def priceCalculator(self, item, qty, itemsOrdered):
         if (qty < 1): # illegal input
             return -1
 
         if item not in self.specialOffers: # no special offers, sell at regular price 
-            # print(f"Total for {item} = {self.prices[item] * qty}\n")
-            return self.prices[item] * qty
+            return self.prices[item] * qty, [0, qty]
+        else:
+            price, numsBought = self.offerCalculator(item,qty,itemsOrdered)
     
-        return self.offerCalculator(item, qty, itemsOrdered)
+        return price, numsBought
     
     def checkout(self, skus): # skus = unicode string
         if skus == "": # illegal input
@@ -108,3 +109,4 @@ supermarket = CheckoutSolution()
 # print(supermarket.checkout("CCADDEEBBA")) # expected 280
 # print(supermarket.checkout("AAAAAEEBAAABB")) # expected 455
 print(supermarket.checkout("ABCDECBAABCABBAAAEEAA")) # expected = 665
+
