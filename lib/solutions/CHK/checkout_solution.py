@@ -9,27 +9,29 @@ class CheckoutSolution:
     }
 
     specialOffers = { # (qty,price,freebies)
-        "A": [(3,130, ()), (5, 200, ())],
+        "A": [(5, 200, ()), (3,130, ())], # store offers in reverse i.e best value -> least value
         "B" : [(2,45, ())],
-        "C" : [(2, 40, ("B",1))]
+        "C" : [(2,40, ("B",1))]
     }
 
     def offerCalculator(self, item, qty):
         regularPrice = self.prices[item]
         offers = self.specialOffers[item]
 
-        # evaluate the quantity against each offer to calculate best possible deal
-        # deduct the price of any freebies (if in the basket)
-
-        # if qty == offer[0]: # quantity matches offer perfectly
-        #     return offer[1]
-        # elif qty < offer[0]: # not enough bought to claim the offer
-        #     return regularPrice * qty
-        # else: # can claim at least one offer
-        #     numOffer = qty // offer[0]
-        #     remaining = qty - (numOffer*offer[0])
-        #     price = (offer[1] * numOffer) + (remaining * regularPrice)
-        #     return price
+        # 1) evaluate the quantity against each offer to calculate best possible deal
+        # 2) deduct the price of any freebies (if in the basket)
+        totalPrice = 0
+        for offer in offers:
+            if qty < offer[0]: # not enough bought to claim the offer
+                totalPrice += (regularPrice * qty)
+            elif qty == offer[0]: # quantity matches offer perfectly
+                totalPrice += offer[1]
+          
+            else: # can claim at least one offer
+                numOffer = qty // offer[0]
+                remaining = qty - (numOffer*offer[0])
+                price = (offer[1] * numOffer) + (remaining * regularPrice)
+                return price
 
     def priceCalculator(self, item, qty):
         if (qty < 1): # illegal input
