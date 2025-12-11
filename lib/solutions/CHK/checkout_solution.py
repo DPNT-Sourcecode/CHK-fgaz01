@@ -140,3 +140,4 @@ class CheckoutSolution:
         groupDiscount = self.groupDiscounts(itemsOrdered, allBuys) # apply group discounts separately
 
         return int(totalCheckoutVal - freeVal - groupDiscount) # final cehcout value
+
