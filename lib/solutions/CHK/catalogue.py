@@ -43,10 +43,19 @@ class SupermarketCatalogue():
         "V" : [(3, 130, ()), (2,90, ())]
     }
 
+    groupDiscounts = {
+        "options" :[3, "S","T","X","Y","Z"], # options[0] from options[1..N]
+        "availableOn" : ["S","T", "X", "Y","Z"],
+        "price" : 45,
+    }
 
     def getPrices(self):
         return self.prices
     
     def getSpecialOffers(self):
         return self.specialOffers
+    
+    def getGroupDiscounts(self):
+        return self.groupDiscounts
+
 

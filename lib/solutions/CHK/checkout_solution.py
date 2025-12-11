@@ -4,6 +4,11 @@ class CheckoutSolution:
     catalogue = SupermarketCatalogue()
     prices = catalogue.getPrices()
     specialOffers = catalogue.getSpecialOffers()
+    groupDiscounts = catalogue.getGroupDiscounts()
+
+    def groupDiscountCalculator(self, itemsOrdered){
+        
+    }
 
     def offerCalculator(self, item, qty, itemsOrdered):
         regularPrice = self.prices[item]
