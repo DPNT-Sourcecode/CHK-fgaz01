@@ -38,12 +38,12 @@ class CheckoutSolution:
 
     def offerCalculator(self, item, qty, itemsOrdered):
         regularPrice = self.prices[item]
-        offers = self.specialOffers[item]
+        offers = self.specialOffers.get(item,[])
 
         totalPrice = 0
         qtyRemaining = qty # claim offers greedily
 
-        bought = [0,0] # record numbers bought at regular and special price (for freebies)
+        bought = [0,0] # [special,regular] record numbers bought at regular and special price (for freebies)
 
         for offer in offers:
             while qtyRemaining >= offer[0]: # claim offers while available
@@ -117,6 +117,7 @@ class CheckoutSolution:
         groupDiscount = self.groupDiscountCalculator(itemsOrdered) # apply group discounts separately
 
         return int(totalCheckoutVal - freeVal + groupDiscount) # final checkout value
+
 
 
 
