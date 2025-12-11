@@ -79,16 +79,29 @@ class CheckoutSolution:
 
                     offersToClaim = itemsOrdered[item] // qtyToClaim 
                     freebiesAvailable = offersToClaim * freeQty # calculate max number of individual free items to claim
-
                     numsSpecial, numsRegular = allBuys.get(freeItem, (0,0))
-                    freebiesApplied = 0
 
-                    if freebiesAvailable <= numsRegular: # purchased at regular price so just a simple deduction
-                        freebiesApplied = min(numsRegular, freebiesAvailable)
-                    elif (numsRegular > 0 or numsSpecial > 0): # some deal claimed in previous purchase
-                        freebiesApplied = min(numsRegular + numsSpecial, freebiesAvailable) # claim freebies
+                    # Freebies apply to regular-price first
+                    freebiesApplied = min(numsRegular, freebiesAvailable)
 
-                    freebieValue += freebiesApplied * self.prices[freeItem] 
+                    remainingFreebies = freebiesAvailable - freebiesApplied
+
+                    # THEN allow special-priced items, but special offers consume qtyToClaim items at discounted rate
+                    if remainingFreebies > 0:
+                        freebiesApplied += min(numsSpecial, remainingFreebies)
+
+                    freebieValue += freebiesApplied * self.prices[freeItem]
+
+                    # numsSpecial, numsRegular = allBuys.get(freeItem, (0,0))
+                    # eligible_freebies = numsRegular
+                    # freebiesApplied = 0
+
+                    # if freebiesAvailable <= numsRegular: # purchased at regular price so just a simple deduction
+                    #     freebiesApplied = min(eligible_freebies, freebiesAvailable)
+                    # # elif (numsRegular > 0 or numsSpecial > 0): # some deal claimed in previous purchase
+                    # #     freebiesApplied = min(numsRegular + numsSpecial, freebiesAvailable) # claim freebies
+
+                    # freebieValue += freebiesApplied * self.prices[freeItem] 
 
         return freebieValue
     
@@ -129,13 +142,4 @@ class CheckoutSolution:
         groupDiscount = self.groupDiscountCalculator(itemsOrdered) # apply group discounts separately
 
         return subTotal - freeVal + groupDiscount # final checkout value
-
-
-
-
-
-
-
-
-
 
