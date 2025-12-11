@@ -113,4 +113,4 @@ supermarket = CheckoutSolution()
 # print(supermarket.checkout("AAAAAEEBAAABB")) # expected 455
 # print(supermarket.checkout("ABCDECBAABCABBAAAEEAA")) # expected = 665
 # print(supermarket.checkout("FFFFFF"))
-# print (supermarket.checkout("FFABCDECBAABCABBAAAEEAAFF")) # expected = 695
+print (supermarket.checkout("FFABCDECBAABCABBAAAEEAAFF")) # expected = 695

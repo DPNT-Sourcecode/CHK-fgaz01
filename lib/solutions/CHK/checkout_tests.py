@@ -37,4 +37,6 @@ class TestCheckout(unittest.TestCase):
     def test_multi_deals_3(self):
         self.assertEqual(self.supermarket.checkout("NNNNNNMM"),240)
 
+if __name__ == "__main__":
+    unittest.main()
 
