@@ -1,14 +1,41 @@
 from solutions.CHK.catalogue import SupermarketCatalogue
 
+
 class CheckoutSolution: 
     catalogue = SupermarketCatalogue()
     prices = catalogue.getPrices()
     specialOffers = catalogue.getSpecialOffers()
     groupDiscounts = catalogue.getGroupDiscounts()
 
-    def groupDiscountCalculator(self, itemsOrdered){
+    # TODO - replace itemsOrdered with allBuys! (sum(allBuys) == itemsOrdered)
 
-    }
+    def groupDiscountCalculator(self, itemsOrdered, allBuys):
+        availableOn = self.groupDiscounts["options"] # get eligible bundle items and number
+        bundlePrice = self.groupDiscounts["price"]
+        bundleNum = availableOn[0] 
+
+        couldClaimOn = []
+        for item in itemsOrdered: # extract potential bundle items from current order
+            if item in availableOn[1:]:
+                couldClaimOn += item
+
+        totalBundleValue = 0
+        itemTypes = set(couldClaimOn)
+        if len( itemTypes == bundleNum): # i.e. have ordered 3 of the eligible items - can claim bundle
+            quantities = [itemsOrdered[item] for item in itemTypes]
+            numBundles = min(quantities) # constrained by the least item ordered
+            totalBundleValue += bundlePrice * numBundles
+          
+            # sell the rest at regular price
+            # must also get regular price calculator to ignore bundle items!
+
+        else:
+            for item in couldClaimOn:
+                totalBundleValue += self.prices[item] * itemsOrdered[item]
+        
+        return totalBundleValue
+    
+
 
     def offerCalculator(self, item, qty, itemsOrdered):
         regularPrice = self.prices[item]
@@ -21,7 +48,7 @@ class CheckoutSolution:
 
         for offer in offers:
             numOffer = 0
-            if qty < offer[0]: # not enough bought to claim the offer
+            if qty < offer[0]: # not enough bought to claim the offer # TODO - remove this
                 continue
             elif qty == offer[0]: # quantity matches offer perfectly
                 numOffer = 1
@@ -53,7 +80,7 @@ class CheckoutSolution:
 
                     numsSpecial, numsRegular = allBuys.get(freeItem, (0,0))
                     freebiesApplied = 0
-                    if numsSpecial == numsRegular == 0: # didn't order previously so no price change
+                    if numsSpecial == numsRegular == 0: # didn't order previously so no price change  # TODO - also remove this
                         # freebiesApplied = 0
                         continue
                     elif freebiesAvailable <= numsRegular: # purchased at regular price so just a simple deduction
@@ -112,12 +139,4 @@ class CheckoutSolution:
 
         groupDiscount = self.groupDiscounts(itemsOrdered, allBuys) # apply group discounts separately
 
-        return int(totalCheckoutVal - freeVal - groupDiscount)
-
-supermarket = CheckoutSolution()
-# print(supermarket.checkout("ABCDEABCDE")) # expected 280
-# print(supermarket.checkout("CCADDEEBBA")) # expected 280
-# print(supermarket.checkout("AAAAAEEBAAABB")) # expected 455
-# print(supermarket.checkout("ABCDECBAABCABBAAAEEAA")) # expected = 665
-# print(supermarket.checkout("FFFFFF"))
-print (supermarket.checkout("FFABCDECBAABCABBAAAEEAAFF")) # expected = 695
+        return int(totalCheckoutVal - freeVal - groupDiscount) # final cehcout value

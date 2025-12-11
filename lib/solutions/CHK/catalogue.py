@@ -45,7 +45,6 @@ class SupermarketCatalogue():
 
     groupDiscounts = {
         "options" :[3, "S","T","X","Y","Z"], # options[0] from options[1..N]
-        "availableOn" : ["S","T", "X", "Y","Z"],
         "price" : 45,
     }
 
