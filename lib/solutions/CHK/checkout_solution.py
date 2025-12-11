@@ -10,7 +10,7 @@ class CheckoutSolution:
 
     def groupDiscountCalculator(self, itemsOrdered):
         bundleOptions = self.groupDiscounts["options"] # get eligible bundle items and number
-        bundleSize = bundleOptions[0] 
+        bundleSize = self.groupDiscounts["size"]
         bundlePrice = self.groupDiscounts["price"]
 
         totalBundleValue = 0
@@ -46,22 +46,14 @@ class CheckoutSolution:
         bought = [0,0] # record numbers bought at regular and special price (for freebies)
 
         for offer in offers:
-            numOffer = 0
-            if qty == offer[0]: # quantity matches offer perfectly
-                numOffer = 1
-                totalPrice += offer[1] 
-                qtyRemaining -= qty
+            while qtyRemaining >= offer[0]: # claim offers while available
+                totalPrice += offer[1]
+                qtyRemaining -= offer[0]
                 bought[0] += offer[0]
-            elif qty > offer[0]: 
-                if qtyRemaining > 0: # can claim at least one offer
-                    numOffer = qtyRemaining // offer[0]
-                    qtyRemaining -= (numOffer*offer[0]) 
-                    totalPrice += (offer[1] * numOffer)
-                    bought[0] += (offer[0] * numOffer)
 
         if qtyRemaining > 0: # include any remaining items
             totalPrice += (qtyRemaining * regularPrice)
-            bought[1] = qtyRemaining    
+            bought[1] += qtyRemaining    
 
         return totalPrice, bought
     
@@ -125,5 +117,6 @@ class CheckoutSolution:
         groupDiscount = self.groupDiscountCalculator(itemsOrdered) # apply group discounts separately
 
         return int(totalCheckoutVal - freeVal + groupDiscount) # final checkout value
+
 
 
