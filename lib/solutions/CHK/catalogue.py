@@ -57,5 +57,3 @@ class SupermarketCatalogue():
     
     def getGroupDiscounts(self):
         return self.groupDiscounts
-
-
