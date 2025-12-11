@@ -30,8 +30,9 @@ class CheckoutSolution:
             for item, price in bundleItems[itemsInBundle:]:
                 totalBundleValue += price 
         else:
-            for item,price in bundleItems:
-                totalBundleValue += price # sell at regular price
+            return 0
+            # for item,price in bundleItems:
+            #     totalBundleValue += price # sell at regular price
 
         return totalBundleValue
     
@@ -116,6 +117,7 @@ class CheckoutSolution:
         groupDiscount = self.groupDiscountCalculator(itemsOrdered) # apply group discounts separately
 
         return subTotal - freeVal + groupDiscount # final checkout value
+
 
 
 
