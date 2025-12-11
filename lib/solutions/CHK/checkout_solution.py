@@ -58,7 +58,7 @@ class CheckoutSolution:
         return totalPrice, bought
     
     def freebieCalculator(self, itemsOrdered, allBuys):
-        freebieValue = 0 # value to DECUCT from the total price
+        freebieValue = 0 # value to DEDUCT from the total price
         for item in itemsOrdered:
             for (qtyToClaim, price, freebies) in self.specialOffers.get(item,[]):
                 if freebies != (): # check if any freebies
@@ -102,21 +102,21 @@ class CheckoutSolution:
                 return -1
             itemsOrdered[item] = itemsOrdered.get(item, 0) + 1
 
-        totalCheckoutVal = 0
+        subTotal = 0
         allBuys = {} # record quantities of items bought at special and regular price
         for item, qty in itemsOrdered.items():
             val, bought = self.priceCalculator(item,qty,itemsOrdered)
             allBuys[item] = bought
             if val != -1:
-                totalCheckoutVal += val 
+                subTotal += val 
             else:
                 return -1
             
         freeVal = self.freebieCalculator(itemsOrdered, allBuys) # calculate freebies separately
-
         groupDiscount = self.groupDiscountCalculator(itemsOrdered) # apply group discounts separately
 
-        return int(totalCheckoutVal - freeVal + groupDiscount) # final checkout value
+        return subTotal - freeVal + groupDiscount # final checkout value
+
 
 
 
