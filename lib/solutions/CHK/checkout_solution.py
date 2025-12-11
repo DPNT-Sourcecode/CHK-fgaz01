@@ -1,5 +1,5 @@
-# from solutions.CHK.catalogue import SupermarketCatalogue
-from catalogue import SupermarketCatalogue
+from solutions.CHK.catalogue import SupermarketCatalogue
+# from catalogue import SupermarketCatalogue
 
 class CheckoutSolution: 
     def __init__(self):
@@ -116,5 +116,6 @@ class CheckoutSolution:
         groupDiscount = self.groupDiscountCalculator(itemsOrdered) # apply group discounts separately
 
         return subTotal - freeVal + groupDiscount # final checkout value
+
 
 
