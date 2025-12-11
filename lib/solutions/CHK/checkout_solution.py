@@ -15,38 +15,25 @@ class CheckoutSolution:
 
         totalBundleValue = 0
         bundleItems = []
-
+        
         for item, qty in itemsOrdered.items():
             if item in bundleOptions:
                 bundleItems += [(item, self.prices[item])] * qty # extract the bundle items and prices
-
-        # if len(bundleItems) >= bundleSize:
-        #     numBundles = len(bundleItems) // bundleSize
-        #     totalBundleValue += bundlePrice * numBundles # claim bundles
-
-        #     # customer-friendly rule: leftover items at normal price
-        #     bundleItems.sort(key=lambda x: x[1], reverse=True)
-        #     itemsInBundle = numBundles * bundleSize
-        #     for item, price in bundleItems[itemsInBundle:]:
-        #         totalBundleValue += price
-
-        #     return totalBundleValue
-
+        
         if len(bundleItems) >= bundleSize:
             numBundles = len(bundleItems) // bundleSize
-            # FIX: We want discount, not total value
-            totalBundleValue = 0
+            totalBundleValue += bundlePrice * numBundles # claim bundles
 
-            # Sort high → low so most expensive go into the bundle
-            bundleItems.sort(key=lambda x: x[1], reverse=True)
+            # favour the customer by selling the remaining cheapest items at regular price
+            bundleItems.sort(key = lambda x:x[1], reverse=True) # sort by price descending
+            itemsInBundle = numBundles * bundleSize
+            for item, price in bundleItems[itemsInBundle:]:
+                totalBundleValue += price 
+        else:
+            for item,price in bundleItems:
+                totalBundleValue += price # sell at regular price
 
-            # Compute how much we OVERPAID in subtotal
-            normal_price_of_bundles = sum(price for _, price in bundleItems[:numBundles * bundleSize])
-
-            # Correct discount = normal prices removed + bundlePrice added per bundle
-            return bundlePrice * numBundles - normal_price_of_bundles
-
-        return 0 # not enough items to form a bundle so no group discount applied
+        return totalBundleValue
     
 
     def offerCalculator(self, item, qty, itemsOrdered):
@@ -79,29 +66,16 @@ class CheckoutSolution:
 
                     offersToClaim = itemsOrdered[item] // qtyToClaim 
                     freebiesAvailable = offersToClaim * freeQty # calculate max number of individual free items to claim
+
                     numsSpecial, numsRegular = allBuys.get(freeItem, (0,0))
+                    freebiesApplied = 0
 
-                    # Freebies apply to regular-price first
-                    freebiesApplied = min(numsRegular, freebiesAvailable)
+                    if freebiesAvailable <= numsRegular: # purchased at regular price so just a simple deduction
+                        freebiesApplied = min(numsRegular, freebiesAvailable)
+                    elif (numsRegular > 0 or numsSpecial > 0): # some deal claimed in previous purchase
+                        freebiesApplied = min(numsRegular + numsSpecial, freebiesAvailable) # claim freebies
 
-                    remainingFreebies = freebiesAvailable - freebiesApplied
-
-                    # THEN allow special-priced items, but special offers consume qtyToClaim items at discounted rate
-                    if remainingFreebies > 0:
-                        freebiesApplied += min(numsSpecial, remainingFreebies)
-
-                    freebieValue += freebiesApplied * self.prices[freeItem]
-
-                    # numsSpecial, numsRegular = allBuys.get(freeItem, (0,0))
-                    # eligible_freebies = numsRegular
-                    # freebiesApplied = 0
-
-                    # if freebiesAvailable <= numsRegular: # purchased at regular price so just a simple deduction
-                    #     freebiesApplied = min(eligible_freebies, freebiesAvailable)
-                    # # elif (numsRegular > 0 or numsSpecial > 0): # some deal claimed in previous purchase
-                    # #     freebiesApplied = min(numsRegular + numsSpecial, freebiesAvailable) # claim freebies
-
-                    # freebieValue += freebiesApplied * self.prices[freeItem] 
+                    freebieValue += freebiesApplied * self.prices[freeItem] 
 
         return freebieValue
     
@@ -112,7 +86,7 @@ class CheckoutSolution:
         if (qty < 1): # illegal input
             return -1
 
-        if (item not in self.specialOffers): # no special offers, sell at regular price 
+        if (item not in self.specialOffers) and (item not in groupDiscountOptions): # no special offers, sell at regular price 
             return self.prices[item] * qty, [0, qty]
         elif (item in self.specialOffers): 
             price, numsBought = self.offerCalculator(item,qty,itemsOrdered)
@@ -142,4 +116,5 @@ class CheckoutSolution:
         groupDiscount = self.groupDiscountCalculator(itemsOrdered) # apply group discounts separately
 
         return subTotal - freeVal + groupDiscount # final checkout value
+
 
