@@ -4,12 +4,14 @@ import unittest
 class TestCheckout(unittest.TestCase):
     supermarket = CheckoutSolution()
 
+    # test simple combinations
     def test_single_item_basket(self):
         self.assertEqual(self.supermarket.checkout("AAA"),130)
 
     def test_single_item_basket_2(self):
         self.assertEqual(self.supermarket.checkout("CC"),40)
-
+    
+    # test baskets with multiple items and offers
     def test_multi_item_basket(self):
         self.assertEqual(self.supermarket.checkout("ABCDEABCDE"),280)
 
@@ -22,6 +24,7 @@ class TestCheckout(unittest.TestCase):
     def test_multi_item_basket_with_deals_2(self):
         self.assertEqual(self.supermarket.checkout("ABCDECBAABCABBAAAEEAA"),665)
 
+    # test buy one get one free type deals
     def test_buy_one_get_one_free(self):
         self.assertEqual(self.supermarket.checkout("FFFFFF"),40)
 
@@ -37,6 +40,7 @@ class TestCheckout(unittest.TestCase):
     def test_multi_deals_3(self):
         self.assertEqual(self.supermarket.checkout("NNNNNNMM"),240)
 
+    # Test new bundle functionality
     def test_group_bundles(self):
         self.assertEqual(self.supermarket.checkout("STX"),45)
 
@@ -46,16 +50,16 @@ class TestCheckout(unittest.TestCase):
     def test_group_bundles_2(self):
         self.assertEqual(self.supermarket.checkout("SSTX"),62)
 
-    def test_group_bundles_3(self):
+    def test_group_bundles_4(self):
         self.assertEqual(self.supermarket.checkout("ABST"),120)
 
-    def test_group_bundles_3(self):
+    def test_group_bundles_5(self):
         self.assertEqual(self.supermarket.checkout("SSS"),45)
 
-    def test_group_bundles_3(self):
+    def test_group_bundles_6(self):
         self.assertEqual(self.supermarket.checkout("SSSZ"),65)
 
-    def test_group_bundles_3(self):
+    def test_group_bundles_7(self):
         self.assertEqual(self.supermarket.checkout("ZZZ"),45)
 
 if __name__ == "__main__":
