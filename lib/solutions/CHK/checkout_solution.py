@@ -15,26 +15,54 @@ class CheckoutSolution:
 
         totalBundleValue = 0
         bundleItems = []
-        
+
         for item, qty in itemsOrdered.items():
             if item in bundleOptions:
                 bundleItems += [(item, self.prices[item])] * qty # extract the bundle items and prices
-        
+
         if len(bundleItems) >= bundleSize:
             numBundles = len(bundleItems) // bundleSize
             totalBundleValue += bundlePrice * numBundles # claim bundles
 
-            # favour the customer by selling the remaining cheapest items at regular price
-            bundleItems.sort(key = lambda x:x[1], reverse=True) # sort by price descending
+            # customer-friendly rule: leftover items at normal price
+            bundleItems.sort(key=lambda x: x[1], reverse=True)
             itemsInBundle = numBundles * bundleSize
             for item, price in bundleItems[itemsInBundle:]:
-                totalBundleValue += price 
-        else:
-            return 0
-            # for item,price in bundleItems:
-            #     totalBundleValue += price # sell at regular price
+                totalBundleValue += price
 
-        return totalBundleValue
+            return totalBundleValue
+
+       
+        return 0 # not enough items to form a bundle so no group discount applied
+
+
+    # def groupDiscountCalculator(self, itemsOrdered):
+    #     bundleOptions = self.groupDiscounts["options"] # get eligible bundle items and number
+    #     bundleSize = self.groupDiscounts["size"]
+    #     bundlePrice = self.groupDiscounts["price"]
+
+    #     totalBundleValue = 0
+    #     bundleItems = []
+        
+    #     for item, qty in itemsOrdered.items():
+    #         if item in bundleOptions:
+    #             bundleItems += [(item, self.prices[item])] * qty # extract the bundle items and prices
+        
+    #     if len(bundleItems) >= bundleSize:
+    #         numBundles = len(bundleItems) // bundleSize
+    #         totalBundleValue += bundlePrice * numBundles # claim bundles
+
+    #         # favour the customer by selling the remaining cheapest items at regular price
+    #         bundleItems.sort(key = lambda x:x[1], reverse=True) # sort by price descending
+    #         itemsInBundle = numBundles * bundleSize
+    #         for item, price in bundleItems[itemsInBundle:]:
+    #             totalBundleValue += price 
+    #     else:
+    #         return 0
+    #         # for item,price in bundleItems:
+    #         #     totalBundleValue += price # sell at regular price
+
+    #     return totalBundleValue
     
 
     def offerCalculator(self, item, qty, itemsOrdered):
@@ -86,13 +114,22 @@ class CheckoutSolution:
         numsBought = 0
         if (qty < 1): # illegal input
             return -1
+        
+        if item in groupDiscountOptions: # ignore group bundle items
+            return 0, [0, qty]
 
-        if (item not in self.specialOffers) and (item not in groupDiscountOptions): # no special offers, sell at regular price 
-            return self.prices[item] * qty, [0, qty]
-        elif (item in self.specialOffers): 
-            price, numsBought = self.offerCalculator(item,qty,itemsOrdered)
+        if item in self.specialOffers:
+            return self.offerCalculator(item, qty, itemsOrdered)
+
+        return self.prices[item] * qty, [0, qty]
+
+
+        # if (item not in self.specialOffers) and (item not in groupDiscountOptions): # no special offers, sell at regular price 
+        #     return self.prices[item] * qty, [0, qty]
+        # elif (item in self.specialOffers): 
+        #     price, numsBought = self.offerCalculator(item,qty,itemsOrdered)
     
-        return price, numsBought
+        # return price, numsBought
     
     def checkout(self, skus): # skus = unicode string
         if skus == "": # illegal input
@@ -117,6 +154,7 @@ class CheckoutSolution:
         groupDiscount = self.groupDiscountCalculator(itemsOrdered) # apply group discounts separately
 
         return subTotal - freeVal + groupDiscount # final checkout value
+
 
 
 
