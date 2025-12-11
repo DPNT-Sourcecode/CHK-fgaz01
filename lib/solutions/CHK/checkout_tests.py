@@ -37,5 +37,17 @@ class TestCheckout(unittest.TestCase):
     def test_multi_deals_3(self):
         self.assertEqual(self.supermarket.checkout("NNNNNNMM"),240)
 
+    def test_group_bundles(self):
+        self.assertEqual(self.supermarket.checkout("STX"),45)
+
+    def test_group_bundles_1(self):
+        self.assertEqual(self.supermarket.checkout("STXSTX"),90)
+
+    def test_group_bundles_2(self):
+        self.assertEqual(self.supermarket.checkout("SSTX"),65)
+
+    def test_group_bundles_3(self):
+        self.assertEqual(self.supermarket.checkout("ABST"),120)
+
 if __name__ == "__main__":
     unittest.main()
