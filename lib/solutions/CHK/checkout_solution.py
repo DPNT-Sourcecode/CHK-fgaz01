@@ -7,7 +7,7 @@ class CheckoutSolution:
     groupDiscounts = catalogue.getGroupDiscounts()
 
     def groupDiscountCalculator(self, itemsOrdered){
-        
+
     }
 
     def offerCalculator(self, item, qty, itemsOrdered):
@@ -110,7 +110,9 @@ class CheckoutSolution:
             
         freeVal = self.freebieCalculator(itemsOrdered, allBuys) # calculate freebies separately
 
-        return int(totalCheckoutVal - freeVal)
+        groupDiscount = self.groupDiscounts(itemsOrdered, allBuys) # apply group discounts separately
+
+        return int(totalCheckoutVal - freeVal - groupDiscount)
 
 supermarket = CheckoutSolution()
 # print(supermarket.checkout("ABCDEABCDE")) # expected 280
@@ -119,3 +121,4 @@ supermarket = CheckoutSolution()
 # print(supermarket.checkout("ABCDECBAABCABBAAAEEAA")) # expected = 665
 # print(supermarket.checkout("FFFFFF"))
 print (supermarket.checkout("FFABCDECBAABCABBAAAEEAAFF")) # expected = 695
+
