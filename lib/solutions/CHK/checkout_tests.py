@@ -44,10 +44,19 @@ class TestCheckout(unittest.TestCase):
         self.assertEqual(self.supermarket.checkout("STXSTX"),90)
 
     def test_group_bundles_2(self):
-        self.assertEqual(self.supermarket.checkout("SSTX"),65)
+        self.assertEqual(self.supermarket.checkout("SSTX"),62)
 
     def test_group_bundles_3(self):
         self.assertEqual(self.supermarket.checkout("ABST"),120)
+
+    def test_group_bundles_3(self):
+        self.assertEqual(self.supermarket.checkout("SSS"),45)
+
+    def test_group_bundles_3(self):
+        self.assertEqual(self.supermarket.checkout("SSSZ"),65)
+
+    def test_group_bundles_3(self):
+        self.assertEqual(self.supermarket.checkout("ZZZ"),45)
 
 if __name__ == "__main__":
     unittest.main()

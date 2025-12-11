@@ -9,31 +9,30 @@ class CheckoutSolution:
 
     # TODO - could replace itemsOrdered with allBuys (sum(allBuys) == itemsOrdered)
     def groupDiscountCalculator(self, itemsOrdered):
-        availableOn = self.groupDiscounts["options"] # get eligible bundle items and number
+        bundleOptions = self.groupDiscounts["options"] # get eligible bundle items and number
+        bundleNum = bundleOptions[0] 
         bundlePrice = self.groupDiscounts["price"]
-        bundleNum = availableOn[0] 
-
-        couldClaimOn = []
-        for item in itemsOrdered: # extract potential bundle items from current order
-            if item in availableOn[1:]:
-                couldClaimOn += item
 
         totalBundleValue = 0
-        itemTypes = set(couldClaimOn)
-        if len(itemTypes) == bundleNum: # i.e. have ordered 3 of the eligible items - can claim bundle
-            quantities = [itemsOrdered[item] for item in itemTypes]
-            numBundles = min(quantities) # constrained by the least item ordered
-            totalBundleValue += bundlePrice * numBundles
-          
-            # sell the rest at regular price
-            for item in couldClaimOn:
-                totalBundleValue += self.prices[item] * (itemsOrdered[item]-numBundles)
-            # must also get regular price calculator to ignore bundle items!
-
-        else:
-            for item in couldClaimOn:
-                totalBundleValue += self.prices[item] * itemsOrdered[item]
+        potentialBundle = []
         
+        for item, qty in itemsOrdered.items():
+            if item in bundleOptions:
+                potentialBundle.extend(([item,self.prices[item]] for _ in range(qty))) # extract the bundle items and prices
+        
+        if len(potentialBundle) >= bundleNum:
+            bundlesToClaim = len(potentialBundle) // bundleNum
+            totalBundleValue += bundlePrice * bundlesToClaim # claim bundles
+
+            # favour the customer by selling the remaining cheapest items at regular price
+            potentialBundle.sort(key = lambda x:x[1], reverse=True) # sort by price descending
+            itemsInBundle = bundlesToClaim * bundleNum
+            for item, price in potentialBundle[itemsInBundle:]:
+                totalBundleValue += price 
+        else:
+            for item,price in potentialBundle:
+                totalBundleValue += price # sell at regular price
+
         return totalBundleValue
     
 
