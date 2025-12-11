@@ -20,19 +20,32 @@ class CheckoutSolution:
             if item in bundleOptions:
                 bundleItems += [(item, self.prices[item])] * qty # extract the bundle items and prices
 
+        # if len(bundleItems) >= bundleSize:
+        #     numBundles = len(bundleItems) // bundleSize
+        #     totalBundleValue += bundlePrice * numBundles # claim bundles
+
+        #     # customer-friendly rule: leftover items at normal price
+        #     bundleItems.sort(key=lambda x: x[1], reverse=True)
+        #     itemsInBundle = numBundles * bundleSize
+        #     for item, price in bundleItems[itemsInBundle:]:
+        #         totalBundleValue += price
+
+        #     return totalBundleValue
+
         if len(bundleItems) >= bundleSize:
             numBundles = len(bundleItems) // bundleSize
-            totalBundleValue += bundlePrice * numBundles # claim bundles
+            # FIX: We want discount, not total value
+            totalBundleValue = 0
 
-            # customer-friendly rule: leftover items at normal price
+            # Sort high → low so most expensive go into the bundle
             bundleItems.sort(key=lambda x: x[1], reverse=True)
-            itemsInBundle = numBundles * bundleSize
-            for item, price in bundleItems[itemsInBundle:]:
-                totalBundleValue += price
 
-            return totalBundleValue
+            # Compute how much we OVERPAID in subtotal
+            normal_price_of_bundles = sum(price for _, price in bundleItems[:numBundles * bundleSize])
 
-       
+            # Correct discount = normal prices removed + bundlePrice added per bundle
+            return bundlePrice * numBundles - normal_price_of_bundles
+
         return 0 # not enough items to form a bundle so no group discount applied
     
 
@@ -86,7 +99,7 @@ class CheckoutSolution:
         if (qty < 1): # illegal input
             return -1
 
-        if (item not in self.specialOffers) and (item not in groupDiscountOptions): # no special offers, sell at regular price 
+        if (item not in self.specialOffers): # no special offers, sell at regular price 
             return self.prices[item] * qty, [0, qty]
         elif (item in self.specialOffers): 
             price, numsBought = self.offerCalculator(item,qty,itemsOrdered)
@@ -116,6 +129,7 @@ class CheckoutSolution:
         groupDiscount = self.groupDiscountCalculator(itemsOrdered) # apply group discounts separately
 
         return subTotal - freeVal + groupDiscount # final checkout value
+
 
 
 
