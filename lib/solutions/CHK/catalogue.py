@@ -10,7 +10,7 @@ class SupermarketCatalogue():
         "H" : 10,
         "I" : 35,
         "J" : 60,
-        "K" : 80,
+        "K" : 70,
         "L" : 90,
         "M" : 15,
         "N" : 40,
@@ -18,14 +18,14 @@ class SupermarketCatalogue():
         "P" : 50,
         "Q" : 30,
         "R" : 50,
-        "S" : 30,
+        "S" : 20,
         "T" : 20,
         "U" : 40,
         "V" : 50,
         "W" : 20,
-        "X" : 90,
-        "Y" : 10,
-        "Z" : 50
+        "X" : 17,
+        "Y" : 20,
+        "Z" : 21
     }
 
     specialOffers = { # (qty,price,freebies)
@@ -34,12 +34,12 @@ class SupermarketCatalogue():
         "E" : [(2,80, ("B",1))],
         "F" : [(3,20, ())], # 'buy 2 get 1 free'
         "H" : [(10, 80, ()), (5, 45, ())],
-        "K" : [(2, 150, ())],
+        "K" : [(2, 120, ())],
         "N" : [(3, 120, ("M",1))],
         "P" : [(5, 200, ())],
         "Q" : [(3,80, ())],
         "R" : [(3,150, ("Q",1))],
-        "U": [(4, 120, ())],
+        "U":  [(4, 120, ())],
         "V" : [(3, 130, ()), (2,90, ())]
     }
 
@@ -49,3 +49,4 @@ class SupermarketCatalogue():
     
     def getSpecialOffers(self):
         return self.specialOffers
+
